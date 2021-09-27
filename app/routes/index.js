@@ -51,7 +51,7 @@ module.exports = function (app) {
   });
 
   app.get('/', function (req, res, next) {
-    res.send('Cotavi');
+    res.send('HZ-CBM');
     return next();
   });
 
