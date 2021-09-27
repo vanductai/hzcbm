@@ -1,0 +1,62 @@
+version: '3'
+services:
+  hz-cbm:
+    container_name: hz-cbm
+    restart: on-failure
+    build: .
+    environment:
+      - NODE_ENV=development
+      - STORE_NAME=hzcbm
+      - NODE_HOST=localhost
+      - NODE_PORT=3335
+      - DB_SERVER=mongodbvn01.caybua.com
+      - DB_PORT=27072
+      - DB_USER=cbm
+      - DB_PASSWORD=GkAKBgpb4zhaR8JWJ99T
+      - DB_NAME=cbm
+      - RABBIT_P_USER_NAME=hzcbm-dev
+      - RABBIT_P_PASS=vochitinh
+      - RABBIT_C_USER_NAME=hzcbm-worker-dev
+      - RABBIT_C_PASS=vochitinh
+      - RABBIT_HOST=hz-cbm-rabbit
+      - RABBIT_PORT=5674
+      - INTERNAL_BASIC_AUTH_USERNAME=harazohointernalcall
+      - INTERNAL_BASIC_AUTH_PASSWORD=vochitinhtinhtuoitan
+      - BOT_TOKEN=850188406:AAEzaZLxMUapRUHHuEaSxJR1ksmthlgO5ac
+      
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
+    ports:
+      - "3335:3335"
+    links:
+      - "hz-cbm-rabbit:rabbit"
+
+    depends_on:
+      - hz-cbm-rabbit
+
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ./docker/core/wait-for-it.sh rabbit:5674 -t 15 -- npm start
+
+    networks: 
+      - hz-cbm-net
+
+  hz-cbm-rabbit:
+      container_name: hz-cbm-rabbit
+      image: rabbitmq:3.8-management-alpine
+      ports:
+        - "5674:5674"
+        - "15674:15674"
+      volumes:
+        - ~/hz-cbm/data/dev/rabbit:/var/lib/rabbitmq
+        - ./docker/rabbitmq/config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      networks: 
+        - hz-cbm-net
+
+networks: 
+  hz-cbm-net:
+    driver: bridge
+    name: hz-cbm-net

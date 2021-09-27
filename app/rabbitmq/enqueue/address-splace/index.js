@@ -1,0 +1,1 @@
+exports.DrawAddressPlaceQueue = require('./draw-address-place');

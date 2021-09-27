@@ -1,0 +1,1 @@
+exports.JwtAuthen = require('./jwt-authen');
