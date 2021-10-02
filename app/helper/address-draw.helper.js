@@ -20,6 +20,7 @@ exports.drawOneAddress = async function (address) {
         },
         rejectUnauthorized: false
     }
+    
     Logger.consoleLogs(`Start get place of address: ${address.address}`);
     Logger.consoleLogs(JSON.stringify(option));
     return request_promise(option)
