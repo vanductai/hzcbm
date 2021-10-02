@@ -1,5 +1,5 @@
 const request_promise = require('request-promise');
-const { Logger } = require('../common');
+const { Logger, Constants } = require('../common');
 
 /**
  * 
@@ -20,7 +20,7 @@ exports.drawOneAddress = async function (address) {
         },
         rejectUnauthorized: false
     }
-    
+
     Logger.consoleLogs(`Start get place of address: ${address.address}`);
     Logger.consoleLogs(JSON.stringify(option));
     return request_promise(option)
@@ -40,7 +40,6 @@ exports.drawOneAddress = async function (address) {
             Logger.consoleLogs(`Get success ${items.length} places`);
             return address.save();
         }).catch(error => {
-            Logger.error(`Get place error: ${error.toString()}`);
-            return null;
+            throw error;
         });
 }

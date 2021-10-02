@@ -11,7 +11,7 @@ module.exports = function (app, teleBot) {
         console.log('Reply help');
     });
 
-    
+
     teleBot.command('/startdraw', async function (ctx) {
         CommandHandle.AddressHandle.DrawAddressHandle.startDrawAddress(ctx);
     });
@@ -20,7 +20,9 @@ module.exports = function (app, teleBot) {
         CommandHandle.AddressHandle.DrawAddressHandle.stopDrawAddress(ctx);
     });
 
-    
+    teleBot.command('/cda', async function (ctx) {
+        CommandHandle.AddressHandle.DrawAddressHandle.countDraw(ctx);
+    });
 
     // On every text message
     teleBot.on('text', async function (ctx) {

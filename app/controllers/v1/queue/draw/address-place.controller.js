@@ -4,6 +4,7 @@ const { Enqueue } = require('../../../../rabbitmq');
 const { AddressPlaceEnqueue } = Enqueue;
 const request_promise = require('request-promise');
 const { AddressDrawHelper } = require('../../../../helper');
+const TeleBotInst = require('../../../../telebot');
 
 module.exports = function (app) {
     const DrawAddressController = {
@@ -30,9 +31,18 @@ module.exports = function (app) {
             })).then(updated_addresses => {
                 DrawAddressController.nextDraw();
                 return res.send({ status: 1, addresses: updated_addresses });
-            }).catch(error => {
+            }).catch(async (error) => {
                 Logger.error(`Get place error: ${error.toString()}`);
-                DrawAddressController.nextDraw();
+                // DrawAddressController.nextDraw();
+                await TeleBotInst.teleBot.telegram.sendMessage(Constants.TELE_GROUP.ERROR, `Lấy địa chỉ lỗi: ${error.toString()}`, {
+                    // parse_mode: 'Markdown'
+                }).then(tele_message => {
+                    return { tele_message: tele_message };
+                }).catch(error => {
+                    return { error: error };
+                });
+                setting.enable_draw = false;
+                await setting.save();
                 return res.send({ status: 0 });
             });
         },

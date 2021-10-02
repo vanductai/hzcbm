@@ -36,9 +36,11 @@ const constants = {
   ZOHO_FORMAT_TIME_ISO8601: 'YYYY-MM-DDThh:mm:ssTZD',
   ZOHO_FORMAT_DATE: 'YYYY-MM-DD',
   ZOHO_FORMAT_DATE_1: 'DD-MM-YYYY',
-  
-  TELE_ADMIN_ID: [279354881, 148220528],
 
+  TELE_ADMIN_ID: [279354881, 148220528],
+  TELE_GROUP: {
+    ERROR: (process.env.NODE_ENV == ENV_PROD) ? -1001301169743 : 279354881
+  },
   MODEL_NAME: {
   },
 
@@ -53,8 +55,8 @@ const constants = {
     }
   },
 
-  SETTING_ID : {
-    setting_address : 'setting_address'
+  SETTING_ID: {
+    setting_address: 'setting_address'
   }
 };
 

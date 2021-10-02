@@ -1,6 +1,6 @@
 const { Constants, Helper } = require('../../../common');
 const TeleBotInst = require('../..');
-const { SettingModel } = require('../../../models');
+const { SettingModel, AddressModel } = require('../../../models');
 const { Enqueue } = require('../../../rabbitmq');
 const { AddressPlaceEnqueue } = Enqueue;
 
@@ -47,4 +47,18 @@ exports.stopDrawAddress = async function (ctx) {
 
     await SettingModel.Model.findOneAndUpdate({ _id: Constants.SETTING_ID.setting_address }, { _id: Constants.SETTING_ID.setting_address, enable_draw: false }, { new: true, upsert: true });
     return ctx.reply('Complete');
+}
+
+/**
+ * /cda
+ */
+exports.countDraw = async function (ctx) {
+    var { message, message_id, user_id } = TeleBotInst.getInfoTeleContext(ctx);
+
+    if (!Constants.TELE_ADMIN_ID.includes(user_id)) {
+        return ctx.reply('Bạn éo có quyền dùng comand này!');
+    }
+
+    const count = await AddressModel.Model.countDocuments({ count_place: { $ne: null } });
+    return ctx.reply(`Total: ${count}`);
 }
