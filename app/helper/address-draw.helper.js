@@ -17,7 +17,8 @@ exports.drawOneAddress = async function (address) {
                 country: 'vn'
             },
             radius: 1000
-        }
+        },
+        rejectUnauthorized: false
     }
     Logger.consoleLogs(`Start get place of address: ${address.address}`);
     Logger.consoleLogs(JSON.stringify(option));
