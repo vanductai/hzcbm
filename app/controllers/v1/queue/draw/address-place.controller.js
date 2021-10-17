@@ -23,6 +23,13 @@ module.exports = function (app) {
 
             var addresses = await AddressModel.Model.find({ count_place: null }).limit((setting.sequence_limit != null) ? setting.sequence_limit : 1);
             if (addresses.length == 0) {
+                await TeleBotInst.teleBot.telegram.sendMessage(Constants.TELE_GROUP.ERROR, `Lấy địa chỉ xong hết rồi nha a @vanductai`, {
+                    // parse_mode: 'Markdown'
+                }).then(tele_message => {
+                    return { tele_message: tele_message };
+                }).catch(error => {
+                    return { error: error };
+                });
                 return res.send({ status: 0 });
             }
             await Helper.awaitTimeout((setting.delay_millisecond) ? setting.delay_millisecond : 2000);
