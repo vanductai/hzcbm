@@ -26,6 +26,9 @@ exports.startDrawAddress = async function (ctx) {
     }
 
     if (messages.length == 3) {
+        if (!isNaN(messages[1])) {
+            update_obj.sequence_limit = messages[1];
+        }
         if (!isNaN(messages[2])) {
             update_obj.delay_millisecond = messages[2];
         }
