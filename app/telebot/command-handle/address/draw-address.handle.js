@@ -34,7 +34,7 @@ exports.startDrawAddress = async function (ctx) {
         }
     }
     await SettingModel.Model.findOneAndUpdate({ _id: Constants.SETTING_ID.setting_address }, { $set: update_obj }, { new: true, upsert: true });
-    AddressPlaceEnqueue.DrawAddressPlaceQueue.enqueueDrawAddressPlace();
+    AddressPlaceEnqueue.DrawAddressPlaceQueue.enqueueDrawAddressPlace(0);
     ctx.reply('Success');
 }
 

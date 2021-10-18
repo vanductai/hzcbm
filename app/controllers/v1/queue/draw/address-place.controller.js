@@ -36,11 +36,11 @@ module.exports = function (app) {
             return Promise.all(addresses.map(address => {
                 return AddressDrawHelper.drawOneAddress(address);
             })).then(updated_addresses => {
-                DrawAddressController.nextDraw();
+                DrawAddressController.nextDraw(0);
                 return res.send({ status: 1, addresses: updated_addresses });
             }).catch(async (error) => {
                 Logger.error(`Get place error: ${error.toString()}`);
-                DrawAddressController.nextDraw({ delay: 30000 });
+                DrawAddressController.nextDraw(30000);
                 await TeleBotInst.teleBot.telegram.sendMessage(Constants.TELE_GROUP.ERROR, `Lấy địa chỉ lỗi: ${error.toString()}`, {
                     // parse_mode: 'Markdown'
                 }).then(tele_message => {
@@ -53,8 +53,8 @@ module.exports = function (app) {
                 return res.send({ status: 0 });
             });
         },
-        nextDraw: function ({ delay = 0 }) {
-            return AddressPlaceEnqueue.DrawAddressPlaceQueue.enqueueDrawAddressPlace({ delay: delay });
+        nextDraw: function (delay = 0) {
+            return AddressPlaceEnqueue.DrawAddressPlaceQueue.enqueueDrawAddressPlace(delay);
         }
     };
 
