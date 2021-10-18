@@ -39,7 +39,7 @@ const constants = {
 
   TELE_ADMIN_ID: [279354881, 148220528],
   TELE_GROUP: {
-    ERROR: (process.env.NODE_ENV == ENV_PROD) ? -1001301169743 : 279354881
+    ERROR: (process.env.NODE_ENV == ENV_PROD) ? -1001301169743 : -1001301169743
   },
   MODEL_NAME: {
   },
