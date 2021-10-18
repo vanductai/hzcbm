@@ -61,7 +61,10 @@ exports.countDraw = async function (ctx) {
     if (!Constants.TELE_ADMIN_ID.includes(user_id)) {
         return ctx.reply('Bạn éo có quyền dùng comand này!');
     }
-
-    const count = await AddressModel.Model.countDocuments({ count_place: { $ne: null } });
-    return ctx.reply(`Total: ${count}`);
+    return Promise.all([
+        await AddressModel.Model.countDocuments({ count_place: { $ne: null } }),
+        await AddressModel.Model.countDocuments({})
+    ]).then(([count, total]) => {
+        return ctx.reply(`Total: ${count}/${total}`);
+    });
 }
