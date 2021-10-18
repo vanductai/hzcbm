@@ -32,7 +32,7 @@ module.exports = function (app) {
                 });
                 return res.send({ status: 0 });
             }
-            await Helper.awaitTimeout((setting.delay_millisecond) ? setting.delay_millisecond : 2000);
+            await Helper.awaitTimeout((setting.delay_millisecond) ? setting.delay_millisecond : 10000);
             return Promise.all(addresses.map(address => {
                 return AddressDrawHelper.drawOneAddress(address);
             })).then(updated_addresses => {
@@ -48,8 +48,8 @@ module.exports = function (app) {
                 }).catch(error => {
                     return { error: error };
                 });
-                setting.enable_draw = false;
-                await setting.save();
+                // setting.enable_draw = false;
+                // await setting.save();
                 return res.send({ status: 0 });
             });
         },
