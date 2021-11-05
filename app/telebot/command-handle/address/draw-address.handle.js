@@ -63,5 +63,5 @@ exports.countDraw = async function (ctx) {
     }
 
     const count = await AddressModel.Model.countDocuments({ count_place: { $ne: null } });
-    return ctx.reply(`Total: ${count}/6536662`);
+    return ctx.reply(`Total: ${count}/7698057`);
 }
